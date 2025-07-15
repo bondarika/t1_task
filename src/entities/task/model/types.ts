@@ -38,3 +38,32 @@ export interface Task {
   priority: TaskPriority;
   createdAt: string;
 }
+
+/**
+ * Пропсы для TaskForm
+ */
+export interface TaskFormProps {
+  initialValues?: Omit<Task, 'id' | 'createdAt'>;
+  loading?: boolean;
+  onSubmit: (values: Omit<Task, 'id' | 'createdAt'>) => void;
+  onCancel: () => void;
+}
+
+/**
+ * Пропсы для TaskList
+ */
+export interface TaskListProps {
+  tasks: Task[];
+  loading?: boolean;
+  onDelete: (id: string) => void;
+  onEdit: (id: string) => void;
+}
+
+/**
+ * Пропсы для TaskItem
+ */
+export interface TaskItemProps {
+  task: Task;
+  onDelete: (id: string) => void;
+  onEdit: (id: string) => void;
+}

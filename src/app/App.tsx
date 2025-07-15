@@ -1,4 +1,3 @@
-import './styles/App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import TaskFormPage from '@pages/TaskFormPage';

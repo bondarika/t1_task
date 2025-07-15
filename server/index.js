@@ -45,7 +45,7 @@ let idCounter = 1;
 const resolvers = {
   Query: {
     tasks: () => tasks,
-    task: (_, { id }) => tasks.find(t => t.id === id),
+    task: (_, { id }) => tasks.find((t) => t.id === id),
   },
   Mutation: {
     createTask: (_, { title, description, category, status, priority }) => {
@@ -62,13 +62,13 @@ const resolvers = {
       return newTask;
     },
     updateTask: (_, { id, ...updates }) => {
-      const idx = tasks.findIndex(t => t.id === id);
+      const idx = tasks.findIndex((t) => t.id === id);
       if (idx === -1) throw new Error('Задача не найдена');
       tasks[idx] = { ...tasks[idx], ...updates };
       return tasks[idx];
     },
     deleteTask: (_, { id }) => {
-      const idx = tasks.findIndex(t => t.id === id);
+      const idx = tasks.findIndex((t) => t.id === id);
       if (idx === -1) return false;
       tasks.splice(idx, 1);
       return true;
