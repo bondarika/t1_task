@@ -57,6 +57,7 @@ export interface TaskListProps {
   loading?: boolean;
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
+  dnd?: boolean;
 }
 
 /**

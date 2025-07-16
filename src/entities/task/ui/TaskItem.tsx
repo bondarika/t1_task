@@ -1,43 +1,44 @@
-import { Card, Tag, Button, Space } from 'antd';
+import { Card, Button } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
-import { type Task, type TaskItemProps } from '../model/types';
+import { type TaskItemProps } from '../model/types';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ru';
 
-const statusColors: Record<Task['status'], string> = {
-  'To Do': 'default',
-  'In Progress': 'blue',
-  Done: 'green',
-};
-const priorityColors: Record<Task['priority'], string> = {
-  Low: 'green',
-  Medium: 'orange',
-  High: 'red',
-};
+dayjs.locale('ru');
+
+function formatDate(dateStr: string) {
+  return dayjs(dateStr).format('D MMMM YYYY, HH:mm');
+}
 
 export function TaskItem({ task, onDelete, onEdit }: TaskItemProps) {
   return (
-    <Card
-      hoverable
-      onClick={() => onEdit(task.id)}
-      extra={
-        <Button
-          type="text"
-          icon={<DeleteOutlined />}
-          danger
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete(task.id);
-          }}
-        />
-      }
-    >
-      <div>{task.title}</div>
-      {task.description && <div>{task.description}</div>}
-      <Space size={6} wrap>
-        <Tag>{task.category}</Tag>
-        <Tag color={statusColors[task.status]}>{task.status}</Tag>
-        <Tag color={priorityColors[task.priority]}>{task.priority}</Tag>
-        <span>{new Date(task.createdAt).toLocaleDateString()}</span>
-      </Space>
+    <Card hoverable className="task-card" onClick={() => onEdit(task.id)}>
+      <div className="task-card-inner">
+        <div className="task-card-header">
+          <div className="task-card-title">{task.title}</div>
+          <Button
+            type="text"
+            icon={<DeleteOutlined />}
+            danger
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(task.id);
+            }}
+          />
+        </div>
+        {task.description && <div className="task-card-desc">{task.description}</div>}
+        <div className="task-card-bottom">
+          <span className="task-card-type">{task.category}</span>
+          <div className="task-card-bottom-row">
+            <span className="task-card-date">{formatDate(task.createdAt)}</span>
+            <span
+              className={`task-card-priority task-card-priority-${task.priority.toLowerCase()}`}
+            >
+              {task.priority}
+            </span>
+          </div>
+        </div>
+      </div>
     </Card>
   );
 }

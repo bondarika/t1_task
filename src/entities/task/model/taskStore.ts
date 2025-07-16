@@ -62,18 +62,20 @@ class TaskStore {
    * Обновить задачу через GraphQL
    */
   updateTask = async (id: string, updates: Partial<Omit<Task, 'id' | 'createdAt'>>) => {
-    this.loading = true;
+    // Оптимистичное обновление задачи локально
+    const idx = this.tasks.findIndex((t) => t.id === id);
+    if (idx !== -1) {
+      this.tasks[idx] = { ...this.tasks[idx], ...updates };
+    }
     try {
       const updatedTask = await apiUpdateTask(id, updates);
       runInAction(() => {
-        const idx = this.tasks.findIndex((t) => t.id === id);
         if (idx !== -1) {
           this.tasks[idx] = updatedTask;
         }
-        this.loading = false;
       });
     } catch (error) {
-      handleError((v) => (this.loading = v), error, 'обновления задачи');
+      handleError(() => {}, error, 'обновления задачи');
     }
   };
 

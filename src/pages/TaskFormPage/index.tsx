@@ -4,6 +4,7 @@ import { message, Card } from 'antd';
 import { taskStore } from '@/entities/task/model/taskStore';
 import { TaskForm } from '@/entities/task/ui/TaskForm';
 import { type Task } from '@/entities/task/model/types';
+import '@/app/styles/App.css';
 
 const TaskFormPage = observer(function TaskFormPage() {
   const { id } = useParams<{ id?: string }>();
@@ -29,7 +30,7 @@ const TaskFormPage = observer(function TaskFormPage() {
   };
 
   return (
-    <div style={{ maxWidth: 480, margin: '0 auto', padding: 24 }}>
+    <div className="task-form-container">
       <Card>
         <h1 style={{ fontWeight: 700, fontSize: 24, marginBottom: 24 }}>
           {isEdit ? 'Редактировать задачу' : 'Новая задача'}

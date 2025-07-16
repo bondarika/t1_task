@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap');
+
+* {
+  font-family: 'Manrope', 'Segoe UI', Arial, sans-serif !important;
+}
+body {
+  margin: 0;
+  background: #f4f6fb;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* --- Карточки --- */
+.ant-card,
+.task-card {
+  border-radius: 16px !important;
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.07);
+  transition: box-shadow 0.2s;
+}
+.ant-card:hover,
+.task-card:hover {
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.12);
+}
+.task-card {
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.task-card-inner {
+  display: flex;
+  flex-direction: column;
+  min-height: 160px;
+  height: 100%;
+  flex-grow: 1;
+}
+.task-card-bottom {
+  margin-top: auto;
+}
+.task-card-date {
+  color: #b0b0b0 !important;
+}
+
+/* --- Кнопки --- */
+.ant-btn,
+.new-task-btn,
+.task-form-container .ant-btn-primary,
+.task-form-container .ant-btn-default {
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  height: 44px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.ant-btn-primary,
+.new-task-btn,
+.task-form-container .ant-btn-primary {
+  background: #222 !important;
+  color: #fff !important;
+  border: none;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.06);
+  transition: background 0.18s;
+}
+.ant-btn-primary:hover,
+.new-task-btn:hover,
+.task-form-container .ant-btn-primary:hover,
+.ant-btn-primary:focus,
+.new-task-btn:focus,
+.task-form-container .ant-btn-primary:focus {
+  background: #111 !important;
+  color: #fff !important;
+}
+.ant-btn-dangerous.ant-btn-text:hover,
+.ant-btn-dangerous.ant-btn-text:focus {
+  background: #ff4d4f !important;
+  color: #fff !important;
+}
+
+/* --- Flex helpers --- */
+.flex-row-space-between,
+.task-card-header,
+.task-card-bottom-row,
+.task-list-header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.flex-col,
+.task-card-bottom,
+.task-card-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Task List/Header --- */
+.task-list-root {
+  min-height: 100vh;
+  background: #f4f6fb;
+}
+.task-list-container {
+  max-width: 90%;
+  margin: 0 auto;
+  padding-top: 24px;
+}
+.task-list-header {
+  width: 100%;
+  position: sticky;
+  background: #f4f6fb;
+  top: 0;
+  z-index: 100;
+  padding: 24px 0px;
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.07);
+}
+.task-list-header-content {
+  width: 90%;
+  margin: 0 auto;
+}
+.task-list-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* --- Task Card Content --- */
+.task-card-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #222;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.task-card-desc {
+  color: #888;
+  margin-bottom: 12px;
+  font-size: 1rem;
+}
+.task-card-date,
+.task-card-type {
+  font-size: 0.9rem;
+  color: #222;
+}
+.task-card-priority {
+  font-weight: 600;
+  font-size: 0.98rem;
+}
+.task-card-priority-low {
+  color: #73d13d;
+}
+.task-card-priority-medium {
+  color: #fa8c16;
+}
+.task-card-priority-high {
+  color: #ff7875;
+}
+
+/* --- Task Form --- */
+.task-form-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 32px;
+}
+.task-form-container h1 {
+  margin-top: 0;
+}
+.task-form-container .ant-btn {
+  margin-bottom: 8px;
+  margin-top: 12px;
+}
+.task-form-container .ant-form-item:last-child {
+  margin-bottom: 0;
+}
+.task-form-container .ant-form-item:last-child .ant-form-item-control-input-content {
+  display: flex;
+  gap: 12px;
+}
+.task-form-container .ant-btn-primary,
+.task-form-container .ant-btn-default {
+  flex: 1 1 0;
+  min-width: 0;
+  width: 50%;
+}
+.task-form-container .ant-select-clear {
+  right: 32px !important;
+}
+.task-form-container .ant-select-arrow {
+  right: 12px !important;
+}
+.task-form-container .ant-form-item-explain-error {
+  margin-bottom: 12px;
+}
+
+/* --- DnD --- */
+.dnd-droppable {
+  min-height: 180px;
+  transition: background 0.2s;
+}
+.dnd-droppable.drag-over {
+  background: #f0f0f0;
+}
+.dnd-draggable.dragging {
+  opacity: 0.7;
+}
+
+.ant-tag {
+  font-size: 14px;
+  border-radius: 6px;
+  padding: 2px 10px;
+}
+
+.ant-form-item-label > label {
+  font-weight: 600;
+  color: #222;
+}

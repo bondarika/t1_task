@@ -1,3 +1,4 @@
+import './styles/App.css';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import TaskFormPage from '@pages/TaskFormPage';
@@ -5,7 +6,18 @@ import TaskListPage from '@pages/TaskListPage';
 
 function App() {
   return (
-    <ConfigProvider>
+    <ConfigProvider
+      theme={{
+        token: {
+          colorPrimary: '#8c8c8c',
+          colorInfo: '#bfbfbf',
+          colorSuccess: '#b7eb8f',
+          colorWarning: '#ffe58f',
+          colorError: '#ffa39e',
+          borderRadius: 12,
+        },
+      }}
+    >
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<TaskListPage />} />

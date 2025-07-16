@@ -21,17 +21,7 @@ export function TaskForm({ initialValues, loading, onSubmit, onCancel }: TaskFor
   };
 
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      onFinish={handleFinish}
-      initialValues={{
-        status: 'To Do',
-        priority: 'Medium',
-        category: 'Feature',
-        ...initialValues,
-      }}
-    >
+    <Form form={form} layout="vertical" onFinish={handleFinish} initialValues={initialValues}>
       <Form.Item
         name="title"
         label={<span>Заголовок</span>}
@@ -51,7 +41,7 @@ export function TaskForm({ initialValues, loading, onSubmit, onCancel }: TaskFor
         label={<span>Категория</span>}
         rules={[{ required: true, message: 'Выберите категорию' }]}
       >
-        <Select size="large" placeholder="Выберите категорию">
+        <Select size="large" placeholder="Выберите категорию" allowClear>
           {categories.map((cat) => (
             <Option key={cat} value={cat}>
               {cat}
@@ -64,7 +54,7 @@ export function TaskForm({ initialValues, loading, onSubmit, onCancel }: TaskFor
         label={<span>Статус</span>}
         rules={[{ required: true, message: 'Выберите статус' }]}
       >
-        <Select size="large" placeholder="Выберите статус">
+        <Select size="large" placeholder="Выберите статус" allowClear>
           {statuses.map((st) => (
             <Option key={st} value={st}>
               {st}
@@ -77,7 +67,7 @@ export function TaskForm({ initialValues, loading, onSubmit, onCancel }: TaskFor
         label={<span>Приоритет</span>}
         rules={[{ required: true, message: 'Выберите приоритет' }]}
       >
-        <Select size="large" placeholder="Выберите приоритет">
+        <Select size="large" placeholder="Выберите приоритет" allowClear>
           {priorities.map((pr) => (
             <Option key={pr} value={pr}>
               {pr}
