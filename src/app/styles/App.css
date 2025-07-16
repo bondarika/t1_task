@@ -222,3 +222,16 @@ body {
   font-weight: 600;
   color: #222;
 }
+
+.task-delete-btn {
+  height: 32px !important;
+  width: 32px !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.task-delete-btn .anticon {
+  font-size: 18px;
+}

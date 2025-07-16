@@ -1,4 +1,4 @@
-import { Row, Col, Empty } from 'antd';
+import { Row, Col, Empty, Spin } from 'antd';
 import { type TaskListProps } from '../model/types';
 import { TaskItem } from './TaskItem';
 import { STATUS_COLUMNS } from '../model/constants';
@@ -11,7 +11,12 @@ export function TaskList({
   onEdit,
   dnd = false,
 }: TaskListProps & { dnd?: boolean }) {
-  if (loading) return <div>Загрузка...</div>;
+  if (loading)
+    return (
+      <div style={{ textAlign: 'center', margin: '48px 0' }}>
+        <Spin size="large" />
+      </div>
+    );
   if (!tasks.length) return <Empty description="Нет задач" />;
 
   return (

@@ -17,6 +17,7 @@ export function TaskItem({ task, onDelete, onEdit }: TaskItemProps) {
         <div className="task-card-header">
           <div className="task-card-title">{task.title}</div>
           <Button
+            className="task-delete-btn"
             type="text"
             icon={<DeleteOutlined />}
             danger
