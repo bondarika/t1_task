@@ -1,6 +1,5 @@
-﻿const { ApolloServer, gql } = require('apollo-server');
+﻿const { ApolloServer, gql } = require('apollo-server-micro');
 
-// Типы схемы
 const typeDefs = gql`
   type Task {
     id: ID!
@@ -37,11 +36,9 @@ const typeDefs = gql`
   }
 `;
 
-// Хранилище задач в памяти
 let tasks = [];
 let idCounter = 1;
 
-// Резолверы
 const resolvers = {
   Query: {
     tasks: () => tasks,
@@ -76,28 +73,34 @@ const resolvers = {
   },
 };
 
-const allowedOrigins = [
-  'https://t1-task-gules.vercel.app',
-  'http://localhost:5173'
-];
-
-// Создание сервера
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  cors: {
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
-    credentials: true
-  },
 });
 
-// Запуск сервера
-server.listen().then(({ url }) => {
-  console.log(`Сервер запущен на ${url}`);
-});
+const startServer = server.start();
+const allowedOrigins = [
+  'https://t1-task-gules.vercel.app',
+  'http://localhost:5173',
+];
+module.exports = async (req, res) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  } else {
+    res.statusCode = 403;
+    res.end('CORS Forbidden');
+    return;
+  }
+
+  if (req.method === 'OPTIONS') {
+    res.end();
+    return;
+  }
+
+  await startServer;
+  await server.createHandler({ path: '/api/graphql' })(req, res);
+};
