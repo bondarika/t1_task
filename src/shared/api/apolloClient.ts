@@ -2,6 +2,6 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 export const apolloClient = new ApolloClient({
-  uri: 'http://localhost:4000',
+  uri: 'https://t1-task.onrender.com',
   cache: new InMemoryCache(),
 });
