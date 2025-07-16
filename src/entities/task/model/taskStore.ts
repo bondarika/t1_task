@@ -83,15 +83,13 @@ class TaskStore {
    * Удалить задачу через GraphQL
    */
   deleteTask = async (id: string) => {
-    this.loading = true;
     try {
       await apiDeleteTask(id);
       runInAction(() => {
         this.tasks = this.tasks.filter((t) => t.id !== id);
-        this.loading = false;
       });
     } catch (error) {
-      handleError((v) => (this.loading = v), error, 'удаления задачи');
+      handleError(() => {}, error, 'удаления задачи');
     }
   };
 }
