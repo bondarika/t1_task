@@ -1,4 +1,4 @@
-﻿const { ApolloServer, gql } = require('apollo-server-micro');
+﻿const { ApolloServer, gql } = require('apollo-server');
 
 const typeDefs = gql`
   type Task {
@@ -73,34 +73,27 @@ const resolvers = {
   },
 };
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-});
-
-const startServer = server.start();
 const allowedOrigins = [
   'https://t1-task-gules.vercel.app',
   'http://localhost:5173',
 ];
-module.exports = async (req, res) => {
-  const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  } else {
-    res.statusCode = 403;
-    res.end('CORS Forbidden');
-    return;
-  }
 
-  if (req.method === 'OPTIONS') {
-    res.end();
-    return;
-  }
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  cors: {
+    origin: (origin, callback) => {
+      // allow requests with no origin (like mobile apps, curl, etc.)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true,
+  },
+});
 
-  await startServer;
-  await server.createHandler({ path: '/api/graphql' })(req, res);
-};
+server.listen({ port: 4000 }).then(({ url }) => {
+  console.log(`�� Server ready at ${url}`);
+});
