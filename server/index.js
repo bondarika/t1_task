@@ -77,7 +77,9 @@ const resolvers = {
 };
 
 // Создание сервера
-const server = new ApolloServer({ typeDefs, resolvers });
+const server = new ApolloServer({ typeDefs, resolvers,   cors: {
+    origin: 'https://t1-task-gules.vercel.app',
+  }, });
 
 // Запуск сервера
 server.listen().then(({ url }) => {
