@@ -76,14 +76,23 @@ const resolvers = {
   },
 };
 
+const allowedOrigins = [
+  'https://t1-task-gules.vercel.app',
+  'http://localhost:5173'
+];
+
 // Создание сервера
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   cors: {
-    origin: [
-      'https://t1-task-gules.vercel.app',
-    ],
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true
   },
 });
