@@ -81,7 +81,11 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   cors: {
-    origin: 'https://t1-task-gules.vercel.app',
+    origin: [
+      'https://t1-task-gules.vercel.app',
+      'http://localhost:5173'
+    ],
+    credentials: true
   },
 });
 
