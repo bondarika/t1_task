@@ -1,7 +1,13 @@
 ﻿import { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
 import express, { type Router } from 'express';
 import { z } from 'zod';
-import { GetTaskSchema, TaskSchema } from './taskModel';
+import {
+  GetTaskSchema,
+  TaskSchema,
+  CreateTaskSchema,
+  UpdateTaskSchema,
+  DeleteTaskSchema,
+} from './taskModel';
 import { createApiResponse } from '../../api-docs/openAPIResponseBuilders';
 import { validateRequest } from '../../common/utils/httpHandlers';
 import { taskController } from './taskController';
@@ -39,15 +45,7 @@ taskRegistry.registerPath({
     body: {
       content: {
         'application/json': {
-          schema: z.object({
-            title: z.string(),
-            description: z.string().optional(),
-            category: z
-              .enum(['Bug', 'Feature', 'Documentation', 'Refactor', 'Test'])
-              .optional(),
-            status: z.enum(['To Do', 'In Progress', 'Done']).optional(),
-            priority: z.enum(['Low', 'Medium', 'High']).optional(),
-          }),
+          schema: CreateTaskSchema.shape.body,
         },
       },
     },
@@ -55,7 +53,11 @@ taskRegistry.registerPath({
   responses: createApiResponse(TaskSchema, 'Success'),
 });
 
-taskRouter.post('/', taskController.createTask);
+taskRouter.post(
+  '/',
+  validateRequest(CreateTaskSchema),
+  taskController.createTask
+);
 
 // Обновление задачи
 taskRegistry.registerPath({
@@ -63,19 +65,11 @@ taskRegistry.registerPath({
   path: '/tasks/{id}',
   tags: ['Task'],
   request: {
-    params: GetTaskSchema.shape.params,
+    params: UpdateTaskSchema.shape.params,
     body: {
       content: {
         'application/json': {
-          schema: z.object({
-            title: z.string().optional(),
-            description: z.string().optional(),
-            category: z
-              .enum(['Bug', 'Feature', 'Documentation', 'Refactor', 'Test'])
-              .optional(),
-            status: z.enum(['To Do', 'In Progress', 'Done']).optional(),
-            priority: z.enum(['Low', 'Medium', 'High']).optional(),
-          }),
+          schema: UpdateTaskSchema.shape.body,
         },
       },
     },
@@ -85,7 +79,7 @@ taskRegistry.registerPath({
 
 taskRouter.patch(
   '/:id',
-  validateRequest(GetTaskSchema),
+  validateRequest(UpdateTaskSchema),
   taskController.updateTask
 );
 
@@ -94,12 +88,12 @@ taskRegistry.registerPath({
   method: 'delete',
   path: '/tasks/{id}',
   tags: ['Task'],
-  request: { params: GetTaskSchema.shape.params },
+  request: { params: DeleteTaskSchema.shape.params },
   responses: createApiResponse(z.boolean(), 'Success'),
 });
 
 taskRouter.delete(
   '/:id',
-  validateRequest(GetTaskSchema),
+  validateRequest(DeleteTaskSchema),
   taskController.deleteTask
 );
