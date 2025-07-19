@@ -30,8 +30,8 @@ app.use(requestLogger);
 app.use('/health-check', healthCheckRouter);
 app.use('/tasks', taskRouter);
 
-// Swagger UI интерфейс
-app.use(openAPIRouter);
+// Swagger UI интерфейс - temporarily disabled
+// app.use(openAPIRouter);
 
 // Обработчики ошибок
 app.use(errorHandler());

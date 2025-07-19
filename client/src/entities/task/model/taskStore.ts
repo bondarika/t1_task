@@ -1,10 +1,10 @@
 import { makeAutoObservable, runInAction, computed } from 'mobx';
-import { type Task } from './types';
+import { type Task, type CreateTaskData, type UpdateTaskData } from './types';
 import { apiGetTasks, apiCreateTask, apiUpdateTask, apiDeleteTask } from '../api/taskApi';
 import { handleError } from '@/shared/lib/handleError';
 
 /**
- * MobX-стор для управления задачами через GraphQL API
+ * MobX-стор для управления задачами через REST API
  */
 class TaskStore {
   tasks: Task[] = [];
@@ -21,7 +21,7 @@ class TaskStore {
    * Получить задачу по id
    */
   get taskById() {
-    return (id: string): Task | undefined => this.tasks.find((t) => t.id === id);
+    return (id: number): Task | undefined => this.tasks.find((t) => t.id === id);
   }
 
   /**
@@ -41,9 +41,9 @@ class TaskStore {
   };
 
   /**
-   * Создать задачу через GraphQL
+   * Создать задачу через REST API
    */
-  createTask = async (task: Omit<Task, 'id' | 'createdAt'>) => {
+  createTask = async (task: CreateTaskData) => {
     this.loading = true;
     try {
       const newTask = await apiCreateTask(task);
@@ -59,9 +59,9 @@ class TaskStore {
   };
 
   /**
-   * Обновить задачу через GraphQL
+   * Обновить задачу через REST API
    */
-  updateTask = async (id: string, updates: Partial<Omit<Task, 'id' | 'createdAt'>>) => {
+  updateTask = async (id: number, updates: UpdateTaskData) => {
     // Оптимистичное обновление задачи локально
     const idx = this.tasks.findIndex((t) => t.id === id);
     if (idx !== -1) {
@@ -80,9 +80,9 @@ class TaskStore {
   };
 
   /**
-   * Удалить задачу через GraphQL
+   * Удалить задачу через REST API
    */
-  deleteTask = async (id: string) => {
+  deleteTask = async (id: number) => {
     try {
       await apiDeleteTask(id);
       runInAction(() => {

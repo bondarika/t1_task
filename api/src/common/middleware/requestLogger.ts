@@ -32,8 +32,7 @@ const httpLogger = pinoHttp({
   genReqId: (req) => req.headers['x-request-id'] as string,
   customLogLevel: (_req, res) => getLogLevel(res.statusCode),
   customSuccessMessage: (req) => `${req.method} ${req.url} completed`,
-  customErrorMessage: (_req, res) =>
-    `Request failed with status code: ${res.statusCode}`,
+  customErrorMessage: (_req, res) => `Request failed with status code: ${res.statusCode}`,
   // Логируем тела ответов только в режиме разработки
   serializers: {
     req: (req) => ({
@@ -44,11 +43,7 @@ const httpLogger = pinoHttp({
   },
 });
 
-const captureResponseBody = (
-  _req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const captureResponseBody = (_req: Request, res: Response, next: NextFunction) => {
   if (!env.isProduction) {
     const originalSend = res.send;
     res.send = function (body) {

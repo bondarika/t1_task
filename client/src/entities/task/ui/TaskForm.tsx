@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { Form, Input, Button, Select } from 'antd';
-import { type Task, type TaskFormProps } from '../model/types';
+import { type CreateTaskData, type TaskFormProps } from '../model/types';
 import { categories, statuses, priorities } from '../model/constants';
 
 const { Option } = Select;
 
 export function TaskForm({ initialValues, loading, onSubmit, onCancel }: TaskFormProps) {
-  const [form] = Form.useForm<Omit<Task, 'id' | 'createdAt'>>();
+  const [form] = Form.useForm<CreateTaskData>();
 
   useEffect(() => {
     if (initialValues) {
@@ -16,7 +16,7 @@ export function TaskForm({ initialValues, loading, onSubmit, onCancel }: TaskFor
     }
   }, [initialValues, form]);
 
-  const handleFinish = (values: Omit<Task, 'id' | 'createdAt'>) => {
+  const handleFinish = (values: CreateTaskData) => {
     onSubmit(values);
   };
 
@@ -36,11 +36,7 @@ export function TaskForm({ initialValues, loading, onSubmit, onCancel }: TaskFor
           size="large"
         />
       </Form.Item>
-      <Form.Item
-        name="category"
-        label={<span>Категория</span>}
-        rules={[{ required: true, message: 'Выберите категорию' }]}
-      >
+      <Form.Item name="category" label={<span>Категория</span>}>
         <Select size="large" placeholder="Выберите категорию" allowClear>
           {categories.map((cat) => (
             <Option key={cat} value={cat}>
@@ -49,11 +45,7 @@ export function TaskForm({ initialValues, loading, onSubmit, onCancel }: TaskFor
           ))}
         </Select>
       </Form.Item>
-      <Form.Item
-        name="status"
-        label={<span>Статус</span>}
-        rules={[{ required: true, message: 'Выберите статус' }]}
-      >
+      <Form.Item name="status" label={<span>Статус</span>}>
         <Select size="large" placeholder="Выберите статус" allowClear>
           {statuses.map((st) => (
             <Option key={st} value={st}>
@@ -62,11 +54,7 @@ export function TaskForm({ initialValues, loading, onSubmit, onCancel }: TaskFor
           ))}
         </Select>
       </Form.Item>
-      <Form.Item
-        name="priority"
-        label={<span>Приоритет</span>}
-        rules={[{ required: true, message: 'Выберите приоритет' }]}
-      >
+      <Form.Item name="priority" label={<span>Приоритет</span>}>
         <Select size="large" placeholder="Выберите приоритет" allowClear>
           {priorities.map((pr) => (
             <Option key={pr} value={pr}>

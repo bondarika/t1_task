@@ -16,13 +16,13 @@
 /**
  * Интерфейс задачи
  * @interface Task
- * @property {string} id - Уникальный идентификатор задачи
+ * @property {number} id - Уникальный идентификатор задачи
  * @property {string} title - Заголовок задачи
  * @property {string} [description] - Описание задачи (опционально)
- * @property {TaskCategory} category - Категория задачи
- * @property {TaskStatus} status - Статус задачи
- * @property {TaskPriority} priority - Приоритет задачи
- * @property {string} createdAt - Дата создания задачи
+ * @property {TaskCategory} [category] - Категория задачи (опционально)
+ * @property {TaskStatus} [status] - Статус задачи (опционально)
+ * @property {TaskPriority} [priority] - Приоритет задачи (опционально)
+ * @property {Date} createdAt - Дата создания задачи
  */
 
 export type TaskCategory = 'Bug' | 'Feature' | 'Documentation' | 'Refactor' | 'Test';
@@ -30,22 +30,44 @@ export type TaskStatus = 'To Do' | 'In Progress' | 'Done';
 export type TaskPriority = 'Low' | 'Medium' | 'High';
 
 export interface Task {
-  id: string;
+  id: number;
   title: string;
   description?: string;
-  category: TaskCategory;
-  status: TaskStatus;
-  priority: TaskPriority;
-  createdAt: string;
+  category?: TaskCategory;
+  status?: TaskStatus;
+  priority?: TaskPriority;
+  createdAt: Date;
+}
+
+/**
+ * Интерфейс для создания задачи
+ */
+export interface CreateTaskData {
+  title: string;
+  description?: string;
+  category?: TaskCategory;
+  status?: TaskStatus;
+  priority?: TaskPriority;
+}
+
+/**
+ * Интерфейс для обновления задачи
+ */
+export interface UpdateTaskData {
+  title?: string;
+  description?: string;
+  category?: TaskCategory;
+  status?: TaskStatus;
+  priority?: TaskPriority;
 }
 
 /**
  * Пропсы для TaskForm
  */
 export interface TaskFormProps {
-  initialValues?: Omit<Task, 'id' | 'createdAt'>;
+  initialValues?: CreateTaskData;
   loading?: boolean;
-  onSubmit: (values: Omit<Task, 'id' | 'createdAt'>) => void;
+  onSubmit: (values: CreateTaskData) => void;
   onCancel: () => void;
 }
 
@@ -55,8 +77,8 @@ export interface TaskFormProps {
 export interface TaskListProps {
   tasks: Task[];
   loading?: boolean;
-  onDelete: (id: string) => void;
-  onEdit: (id: string) => void;
+  onDelete: (id: number) => void;
+  onEdit: (id: number) => void;
   dnd?: boolean;
 }
 
@@ -65,6 +87,6 @@ export interface TaskListProps {
  */
 export interface TaskItemProps {
   task: Task;
-  onDelete: (id: string) => void;
-  onEdit: (id: string) => void;
+  onDelete: (id: number) => void;
+  onEdit: (id: number) => void;
 }

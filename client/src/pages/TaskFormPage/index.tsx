@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite';
 import { message, Card } from 'antd';
 import { taskStore } from '@/entities/task/model/taskStore';
 import { TaskForm } from '@/entities/task/ui/TaskForm';
-import { type Task } from '@/entities/task/model/types';
+import { type CreateTaskData, type UpdateTaskData } from '@/entities/task/model/types';
 import '@/app/styles/App.css';
 
 const TaskFormPage = observer(function TaskFormPage() {
@@ -12,12 +12,12 @@ const TaskFormPage = observer(function TaskFormPage() {
   const isEdit = Boolean(id);
   const { createTask, updateTask, loading, taskById } = taskStore;
 
-  const initialValues = isEdit && id ? taskById(id) : undefined;
+  const initialValues = isEdit && id ? taskById(Number(id)) : undefined;
 
-  const handleSubmit = async (values: Omit<Task, 'id' | 'createdAt'>) => {
+  const handleSubmit = async (values: CreateTaskData) => {
     try {
       if (isEdit && id) {
-        await updateTask(id, values);
+        await updateTask(Number(id), values as UpdateTaskData);
         message.success('Задача обновлена');
       } else {
         await createTask(values);

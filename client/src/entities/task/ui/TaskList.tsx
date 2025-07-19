@@ -33,7 +33,9 @@ export function TaskList({
                   .filter((task) => task.status === col.key)
                   .sort((a, b) => {
                     const priorityOrder = { High: 0, Medium: 1, Low: 2 };
-                    return priorityOrder[a.priority] - priorityOrder[b.priority];
+                    const aPriority = a.priority || 'Low';
+                    const bPriority = b.priority || 'Low';
+                    return priorityOrder[aPriority] - priorityOrder[bPriority];
                   });
                 const isEmpty = filteredTasks.length === 0;
                 return (
@@ -47,7 +49,7 @@ export function TaskList({
                     }}
                   >
                     {filteredTasks.map((task, idx) => (
-                      <Draggable key={task.id} draggableId={task.id} index={idx}>
+                      <Draggable key={task.id} draggableId={task.id.toString()} index={idx}>
                         {(provided, snapshot) => (
                           <div
                             ref={provided.innerRef}
@@ -81,7 +83,9 @@ export function TaskList({
               .filter((task) => task.status === col.key)
               .sort((a, b) => {
                 const priorityOrder = { High: 0, Medium: 1, Low: 2 };
-                return priorityOrder[a.priority] - priorityOrder[b.priority];
+                const aPriority = a.priority || 'Low';
+                const bPriority = b.priority || 'Low';
+                return priorityOrder[aPriority] - priorityOrder[bPriority];
               })
               .map((task) => (
                 <TaskItem key={task.id} task={task} onDelete={onDelete} onEdit={onEdit} />

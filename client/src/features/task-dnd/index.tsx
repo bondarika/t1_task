@@ -14,7 +14,7 @@ export const TaskDndBoard = observer(({ onEdit, onDelete }: TaskDndBoardProps) =
     if (destination.droppableId === source.droppableId && destination.index === source.index) {
       return;
     }
-    const task = tasks.find((t) => t.id === draggableId);
+    const task = tasks.find((t) => t.id.toString() === draggableId);
     if (task && task.status !== destination.droppableId) {
       updateTask(task.id, {
         status: destination.droppableId as import('@/entities/task/model/types').TaskStatus,

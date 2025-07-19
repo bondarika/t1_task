@@ -26,7 +26,7 @@ const TaskListPage = observer(function TaskListPage() {
         </div>
       </div>
       <div className="task-list-container">
-        <TaskDndBoard onDelete={deleteTask} onEdit={(id: string) => navigate(`/task/${id}`)} />
+        <TaskDndBoard onDelete={deleteTask} onEdit={(id: number) => navigate(`/task/${id}`)} />
       </div>
     </div>
   );

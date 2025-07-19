@@ -6,8 +6,8 @@ import 'dayjs/locale/ru';
 
 dayjs.locale('ru');
 
-function formatDate(dateStr: string) {
-  return dayjs(dateStr).format('D MMMM YYYY, HH:mm');
+function formatDate(date: Date) {
+  return dayjs(date).format('D MMMM YYYY, HH:mm');
 }
 
 export function TaskItem({ task, onDelete, onEdit }: TaskItemProps) {
@@ -29,14 +29,16 @@ export function TaskItem({ task, onDelete, onEdit }: TaskItemProps) {
         </div>
         {task.description && <div className="task-card-desc">{task.description}</div>}
         <div className="task-card-bottom">
-          <span className="task-card-type">{task.category}</span>
+          {task.category && <span className="task-card-type">{task.category}</span>}
           <div className="task-card-bottom-row">
             <span className="task-card-date">{formatDate(task.createdAt)}</span>
-            <span
-              className={`task-card-priority task-card-priority-${task.priority.toLowerCase()}`}
-            >
-              {task.priority}
-            </span>
+            {task.priority && (
+              <span
+                className={`task-card-priority task-card-priority-${task.priority.toLowerCase()}`}
+              >
+                {task.priority}
+              </span>
+            )}
           </div>
         </div>
       </div>
