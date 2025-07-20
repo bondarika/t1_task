@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import { message, Card } from 'antd';
+import { Card, App } from 'antd';
 import { taskStore } from '@/entities/task/model/taskStore';
 import { TaskForm } from '@/entities/task/ui/TaskForm';
 import { type CreateTaskData, type UpdateTaskData } from '@/entities/task/model/types';
@@ -11,6 +11,7 @@ const TaskFormPage = observer(function TaskFormPage() {
   const navigate = useNavigate();
   const isEdit = Boolean(id);
   const { createTask, updateTask, loading, taskById } = taskStore;
+  const { message } = App.useApp();
 
   const initialValues = isEdit && id ? taskById(Number(id)) : undefined;
 

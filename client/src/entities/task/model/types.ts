@@ -19,9 +19,9 @@
  * @property {number} id - Уникальный идентификатор задачи
  * @property {string} title - Заголовок задачи
  * @property {string} [description] - Описание задачи (опционально)
- * @property {TaskCategory} [category] - Категория задачи (опционально)
- * @property {TaskStatus} [status] - Статус задачи (опционально)
- * @property {TaskPriority} [priority] - Приоритет задачи (опционально)
+ * @property {TaskCategory} category - Категория задачи
+ * @property {TaskStatus} status - Статус задачи
+ * @property {TaskPriority} priority - Приоритет задачи
  * @property {Date} createdAt - Дата создания задачи
  */
 
@@ -33,9 +33,9 @@ export interface Task {
   id: number;
   title: string;
   description?: string;
-  category?: TaskCategory;
-  status?: TaskStatus;
-  priority?: TaskPriority;
+  category: TaskCategory;
+  status: TaskStatus;
+  priority: TaskPriority;
   createdAt: Date;
 }
 
@@ -45,20 +45,20 @@ export interface Task {
 export interface CreateTaskData {
   title: string;
   description?: string;
-  category?: TaskCategory;
-  status?: TaskStatus;
-  priority?: TaskPriority;
+  category: TaskCategory;
+  status: TaskStatus;
+  priority: TaskPriority;
 }
 
 /**
  * Интерфейс для обновления задачи
  */
 export interface UpdateTaskData {
-  title?: string;
+  title: string;
   description?: string;
-  category?: TaskCategory;
-  status?: TaskStatus;
-  priority?: TaskPriority;
+  category: TaskCategory;
+  status: TaskStatus;
+  priority: TaskPriority;
 }
 
 /**
