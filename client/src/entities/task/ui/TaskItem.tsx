@@ -6,10 +6,40 @@ import 'dayjs/locale/ru';
 
 dayjs.locale('ru');
 
+/**
+ * Форматирует дату в читаемый вид
+ * @description Преобразует объект Date в строку формата "D MMMM YYYY, HH:mm"
+ * @param date - Дата для форматирования
+ * @returns Отформатированная строка даты на русском языке
+ *
+ * @example
+ * ```ts
+ * formatDate(new Date()) // "15 января 2024, 14:30"
+ * ```
+ */
 function formatDate(date: Date) {
   return dayjs(date).format('D MMMM YYYY, HH:mm');
 }
 
+/**
+ * Компонент карточки отдельной задачи
+ * @description Отображает информацию о задаче в виде интерактивной карточки
+ * с возможностью редактирования и удаления
+ * @param props - Пропсы компонента
+ * @param props.task - Объект задачи для отображения
+ * @param props.onDelete - Callback для удаления задачи
+ * @param props.onEdit - Callback для редактирования задачи
+ * @returns JSX элемент карточки задачи
+ *
+ * @example
+ * ```tsx
+ * <TaskItem
+ *   task={taskData}
+ *   onDelete={handleDelete}
+ *   onEdit={handleEdit}
+ * />
+ * ```
+ */
 export function TaskItem({ task, onDelete, onEdit }: TaskItemProps) {
   return (
     <Card hoverable className="task-card" onClick={() => onEdit(task.id)}>

@@ -1,10 +1,22 @@
 ﻿import { type Task, type CreateTaskData, type UpdateTaskData } from '../model/types.ts';
 
+/** Базовый URL для API запросов */
 const API_BASE_URL = 'http://localhost:8080'; // URL нового бэкенда
 
+/**
+ * Кастомный класс ошибки для API запросов
+ * @description Расширяет стандартный Error для добавления HTTP статуса
+ * @extends {Error}
+ */
 class TaskApiError extends Error {
+  /** HTTP статус код ответа сервера */
   public status?: number;
 
+  /**
+   * Создает новый экземпляр TaskApiError
+   * @param message - Сообщение об ошибке
+   * @param status - HTTP статус код (опционально)
+   */
   constructor(message: string, status?: number) {
     super(message);
     this.name = 'TaskApiError';
@@ -12,6 +24,18 @@ class TaskApiError extends Error {
   }
 }
 
+/**
+ * Обрабатывает HTTP ответ от сервера
+ * @description Проверяет статус ответа и парсит JSON. При ошибке выбрасывает TaskApiError
+ * @param response - Объект Response от fetch
+ * @returns Парсированный JSON ответ
+ * @throws {TaskApiError} При HTTP ошибках (4xx, 5xx)
+ *
+ * @example
+ * ```ts
+ * const data = await handleResponse(response);
+ * ```
+ */
 const handleResponse = async (response: Response) => {
   if (!response.ok) {
     const errorText = await response.text();
@@ -20,6 +44,18 @@ const handleResponse = async (response: Response) => {
   return response.json();
 };
 
+/**
+ * Получает список всех задач с сервера
+ * @description Выполняет GET запрос к /tasks и преобразует даты в объекты Date
+ * @returns Promise с массивом задач
+ * @throws {TaskApiError} При ошибках сети или сервера
+ *
+ * @example
+ * ```ts
+ * const tasks = await apiGetTasks();
+ * console.log(tasks.length); // Количество задач
+ * ```
+ */
 export const apiGetTasks = async (): Promise<Task[]> => {
   try {
     const response = await fetch(`${API_BASE_URL}/tasks`);
@@ -34,6 +70,19 @@ export const apiGetTasks = async (): Promise<Task[]> => {
   }
 };
 
+/**
+ * Получает задачу по ID с сервера
+ * @description Выполняет GET запрос к /tasks/{id} и преобразует дату в объект Date
+ * @param id - Уникальный идентификатор задачи
+ * @returns Promise с объектом задачи
+ * @throws {TaskApiError} При ошибках сети, сервера или если задача не найдена
+ *
+ * @example
+ * ```ts
+ * const task = await apiGetTask(123);
+ * console.log(task.title); // Заголовок задачи
+ * ```
+ */
 export const apiGetTask = async (id: number): Promise<Task> => {
   try {
     const response = await fetch(`${API_BASE_URL}/tasks/${id}`);
@@ -48,6 +97,24 @@ export const apiGetTask = async (id: number): Promise<Task> => {
   }
 };
 
+/**
+ * Создает новую задачу на сервере
+ * @description Выполняет POST запрос к /tasks с данными новой задачи
+ * @param task - Данные для создания задачи (без id)
+ * @returns Promise с созданной задачей (включая id и createdAt)
+ * @throws {TaskApiError} При ошибках валидации, сети или сервера
+ *
+ * @example
+ * ```ts
+ * const newTask = await apiCreateTask({
+ *   title: 'Новая задача',
+ *   category: 'Feature',
+ *   status: 'To Do',
+ *   priority: 'High'
+ * });
+ * console.log(newTask.id); // ID созданной задачи
+ * ```
+ */
 export const apiCreateTask = async (task: CreateTaskData): Promise<Task> => {
   try {
     const response = await fetch(`${API_BASE_URL}/tasks`, {
@@ -68,6 +135,23 @@ export const apiCreateTask = async (task: CreateTaskData): Promise<Task> => {
   }
 };
 
+/**
+ * Обновляет существующую задачу на сервере
+ * @description Выполняет PATCH запрос к /tasks/{id} с данными для обновления
+ * @param id - ID задачи для обновления
+ * @param updates - Данные для обновления (частичное обновление)
+ * @returns Promise с обновленной задачей
+ * @throws {TaskApiError} При ошибках валидации, сети, сервера или если задача не найдена
+ *
+ * @example
+ * ```ts
+ * const updatedTask = await apiUpdateTask(123, {
+ *   status: 'In Progress',
+ *   priority: 'Medium'
+ * });
+ * console.log(updatedTask.status); // 'In Progress'
+ * ```
+ */
 export const apiUpdateTask = async (id: number, updates: UpdateTaskData): Promise<Task> => {
   try {
     const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {
@@ -88,6 +172,21 @@ export const apiUpdateTask = async (id: number, updates: UpdateTaskData): Promis
   }
 };
 
+/**
+ * Удаляет задачу с сервера
+ * @description Выполняет DELETE запрос к /tasks/{id}
+ * @param id - ID задачи для удаления
+ * @returns Promise с boolean результатом операции
+ * @throws {TaskApiError} При ошибках сети, сервера или если задача не найдена
+ *
+ * @example
+ * ```ts
+ * const success = await apiDeleteTask(123);
+ * if (success) {
+ *   console.log('Задача успешно удалена');
+ * }
+ * ```
+ */
 export const apiDeleteTask = async (id: number): Promise<boolean> => {
   try {
     const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {

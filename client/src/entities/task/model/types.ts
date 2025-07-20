@@ -1,46 +1,40 @@
 ﻿/**
- * Тип категории задачи
- * @typedef {"Bug" | "Feature" | "Documentation" | "Refactor" | "Test"} TaskCategory
+ * Категории задач для классификации
  */
-
-/**
- * Тип статуса задачи
- * @typedef {"To Do" | "In Progress" | "Done"} TaskStatus
- */
-
-/**
- * Тип приоритета задачи
- * @typedef {"Low" | "Medium" | "High"} TaskPriority
- */
-
-/**
- * Интерфейс задачи
- * @interface Task
- * @property {number} id - Уникальный идентификатор задачи
- * @property {string} title - Заголовок задачи
- * @property {string} [description] - Описание задачи (опционально)
- * @property {TaskCategory} category - Категория задачи
- * @property {TaskStatus} status - Статус задачи
- * @property {TaskPriority} priority - Приоритет задачи
- * @property {Date} createdAt - Дата создания задачи
- */
-
 export type TaskCategory = 'Bug' | 'Feature' | 'Documentation' | 'Refactor' | 'Test';
+
+/**
+ * Статусы выполнения задачи
+ */
 export type TaskStatus = 'To Do' | 'In Progress' | 'Done';
+
+/**
+ * Уровни приоритета задачи
+ */
 export type TaskPriority = 'Low' | 'Medium' | 'High';
 
+/**
+ * Основная модель задачи в системе
+ */
 export interface Task {
+  /** Уникальный идентификатор задачи */
   id: number;
+  /** Заголовок задачи */
   title: string;
+  /** Описание задачи (опционально) */
   description?: string;
+  /** Категория задачи */
   category: TaskCategory;
+  /** Статус выполнения */
   status: TaskStatus;
+  /** Приоритет задачи */
   priority: TaskPriority;
+  /** Дата создания */
   createdAt: Date;
 }
 
 /**
- * Интерфейс для создания задачи
+ * Данные для создания новой задачи
  */
 export interface CreateTaskData {
   title: string;
@@ -51,7 +45,7 @@ export interface CreateTaskData {
 }
 
 /**
- * Интерфейс для обновления задачи
+ * Данные для обновления задачи
  */
 export interface UpdateTaskData {
   title: string;
@@ -62,31 +56,43 @@ export interface UpdateTaskData {
 }
 
 /**
- * Пропсы для TaskForm
+ * Пропсы для компонента формы задачи
  */
 export interface TaskFormProps {
+  /** Начальные значения для редактирования */
   initialValues?: CreateTaskData;
+  /** Состояние загрузки */
   loading?: boolean;
+  /** Callback при отправке формы */
   onSubmit: (values: CreateTaskData) => void;
+  /** Callback при отмене */
   onCancel: () => void;
 }
 
 /**
- * Пропсы для TaskList
+ * Пропсы для компонента списка задач
  */
 export interface TaskListProps {
+  /** Массив задач */
   tasks: Task[];
+  /** Состояние загрузки */
   loading?: boolean;
+  /** Callback для удаления */
   onDelete: (id: number) => void;
+  /** Callback для редактирования */
   onEdit: (id: number) => void;
+  /** Включить drag-and-drop */
   dnd?: boolean;
 }
 
 /**
- * Пропсы для TaskItem
+ * Пропсы для компонента карточки задачи
  */
 export interface TaskItemProps {
+  /** Объект задачи */
   task: Task;
+  /** Callback для удаления */
   onDelete: (id: number) => void;
+  /** Callback для редактирования */
   onEdit: (id: number) => void;
 }

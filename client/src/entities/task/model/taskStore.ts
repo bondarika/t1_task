@@ -5,9 +5,27 @@ import { handleError } from '@/shared/lib/handleError';
 
 /**
  * MobX-стор для управления задачами через REST API
+ * @description Централизованное хранилище состояния задач с автоматической синхронизацией
+ * с сервером. Использует оптимистичные обновления для улучшения UX.
+ *
+ * @example
+ * ```ts
+ * // Получение всех задач
+ * const tasks = taskStore.tasks;
+ *
+ * // Создание новой задачи
+ * await taskStore.createTask({
+ *   title: 'Новая задача',
+ *   category: 'Feature',
+ *   status: 'To Do',
+ *   priority: 'High'
+ * });
+ * ```
  */
 class TaskStore {
+  /** Массив всех задач в системе */
   tasks: Task[] = [];
+  /** Флаг загрузки для отображения индикаторов */
   loading = false;
 
   constructor() {
@@ -18,14 +36,27 @@ class TaskStore {
   }
 
   /**
-   * Получить задачу по id
+   * Computed свойство для получения задачи по ID
+   * @description Возвращает задачу из локального состояния по её уникальному идентификатору
+   * @param id - Уникальный идентификатор задачи
+   * @returns Объект задачи или undefined, если задача не найдена
+   *
+   * @example
+   * ```ts
+   * const task = taskStore.taskById(123);
+   * if (task) {
+   *   console.log(task.title);
+   * }
+   * ```
    */
   get taskById() {
     return (id: number): Task | undefined => this.tasks.find((t) => t.id === id);
   }
 
   /**
-   * Загрузка задач с сервера
+   * Загружает все задачи с сервера
+   * @description Выполняет GET запрос к API и обновляет локальное состояние
+   * @throws {Error} При ошибке сетевого запроса или валидации данных
    */
   loadTasks = async () => {
     this.loading = true;
@@ -41,7 +72,21 @@ class TaskStore {
   };
 
   /**
-   * Создать задачу через REST API
+   * Создает новую задачу на сервере
+   * @description Отправляет POST запрос для создания задачи и добавляет её в локальное состояние
+   * @param task - Данные для создания новой задачи
+   * @throws {Error} При ошибке валидации или сетевого запроса
+   *
+   * @example
+   * ```ts
+   * await taskStore.createTask({
+   *   title: 'Исправить баг',
+   *   description: 'Описание бага',
+   *   category: 'Bug',
+   *   status: 'To Do',
+   *   priority: 'High'
+   * });
+   * ```
    */
   createTask = async (task: CreateTaskData) => {
     this.loading = true;
@@ -59,7 +104,20 @@ class TaskStore {
   };
 
   /**
-   * Обновить задачу через REST API
+   * Обновляет существующую задачу на сервере
+   * @description Использует оптимистичное обновление: сначала обновляет локальное состояние,
+   * затем синхронизирует с сервером. При ошибке локальные изменения откатываются.
+   * @param id - ID задачи для обновления
+   * @param updates - Данные для обновления
+   * @throws {Error} При ошибке валидации или сетевого запроса
+   *
+   * @example
+   * ```ts
+   * await taskStore.updateTask(123, {
+   *   status: 'In Progress',
+   *   priority: 'Medium'
+   * });
+   * ```
    */
   updateTask = async (id: number, updates: UpdateTaskData) => {
     // Оптимистичное обновление задачи локально
@@ -80,7 +138,15 @@ class TaskStore {
   };
 
   /**
-   * Удалить задачу через REST API
+   * Удаляет задачу с сервера
+   * @description Отправляет DELETE запрос и удаляет задачу из локального состояния
+   * @param id - ID задачи для удаления
+   * @throws {Error} При ошибке сетевого запроса
+   *
+   * @example
+   * ```ts
+   * await taskStore.deleteTask(123);
+   * ```
    */
   deleteTask = async (id: number) => {
     try {
@@ -94,4 +160,5 @@ class TaskStore {
   };
 }
 
+/** Экземпляр стора задач для использования в приложении */
 export const taskStore = new TaskStore();

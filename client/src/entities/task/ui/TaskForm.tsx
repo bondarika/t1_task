@@ -5,9 +5,34 @@ import { categories, statuses, priorities } from '../model/constants';
 
 const { Option } = Select;
 
+/**
+ * Компонент формы для создания и редактирования задач
+ * @description Предоставляет интерфейс для ввода данных задачи с валидацией
+ * @param props - Пропсы компонента
+ * @param props.initialValues - Начальные значения для редактирования
+ * @param props.loading - Состояние загрузки, блокирует форму
+ * @param props.onSubmit - Callback при отправке формы
+ * @param props.onCancel - Callback при отмене операции
+ * @returns JSX элемент формы
+ *
+ * @example
+ * ```tsx
+ * <TaskForm
+ *   initialValues={taskData}
+ *   loading={isLoading}
+ *   onSubmit={handleSubmit}
+ *   onCancel={handleCancel}
+ * />
+ * ```
+ */
 export function TaskForm({ initialValues, loading, onSubmit, onCancel }: TaskFormProps) {
   const [form] = Form.useForm<CreateTaskData>();
 
+  /**
+   * Синхронизирует значения формы с initialValues
+   * @description При изменении initialValues обновляет поля формы
+   * или сбрасывает их, если initialValues не переданы
+   */
   useEffect(() => {
     if (initialValues) {
       form.setFieldsValue(initialValues);
@@ -16,6 +41,10 @@ export function TaskForm({ initialValues, loading, onSubmit, onCancel }: TaskFor
     }
   }, [initialValues, form]);
 
+  /**
+   * Обработчик отправки формы
+   * @param values - Валидированные данные формы
+   */
   const handleFinish = (values: CreateTaskData) => {
     onSubmit(values);
   };

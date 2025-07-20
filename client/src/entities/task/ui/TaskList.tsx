@@ -4,6 +4,28 @@ import { TaskItem } from './TaskItem';
 import { STATUS_COLUMNS } from '../model/constants';
 import { Droppable, Draggable } from '@hello-pangea/dnd';
 
+/**
+ * Компонент списка задач с поддержкой drag-and-drop
+ * @description Отображает задачи в колонках по статусам с возможностью сортировки по приоритету
+ * @param props - Пропсы компонента
+ * @param props.tasks - Массив задач для отображения
+ * @param props.loading - Состояние загрузки
+ * @param props.onDelete - Callback для удаления задачи
+ * @param props.onEdit - Callback для редактирования задачи
+ * @param props.dnd - Флаг включения drag-and-drop функциональности
+ * @returns JSX элемент списка задач
+ *
+ * @example
+ * ```tsx
+ * <TaskList
+ *   tasks={tasks}
+ *   loading={isLoading}
+ *   onDelete={handleDelete}
+ *   onEdit={handleEdit}
+ *   dnd={true}
+ * />
+ * ```
+ */
 export function TaskList({
   tasks,
   loading,
@@ -29,6 +51,10 @@ export function TaskList({
           {dnd ? (
             <Droppable droppableId={col.key}>
               {(provided, snapshot) => {
+                /**
+                 * Фильтрует и сортирует задачи для текущей колонки
+                 * @description Фильтрует по статусу и сортирует по приоритету (High -> Medium -> Low)
+                 */
                 const filteredTasks = tasks
                   .filter((task) => task.status === col.key)
                   .sort((a, b) => {
