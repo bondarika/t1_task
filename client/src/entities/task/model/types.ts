@@ -48,11 +48,11 @@ export interface CreateTaskData {
  * Данные для обновления задачи
  */
 export interface UpdateTaskData {
-  title: string;
+  title?: string;
   description?: string;
-  category: TaskCategory;
-  status: TaskStatus;
-  priority: TaskPriority;
+  category?: TaskCategory;
+  status?: TaskStatus;
+  priority?: TaskPriority;
 }
 
 /**

@@ -35,11 +35,11 @@ export const CreateTaskSchema = z.object({
 export const UpdateTaskSchema = z.object({
   params: z.object({ id: commonValidations.id }),
   body: z.object({
-    title: z.string().min(1, 'Название задачи обязательно'),
+    title: z.string().min(1, 'Название задачи обязательно').optional(),
     description: z.string().optional(),
-    category: z.enum(['Bug', 'Feature', 'Documentation', 'Refactor', 'Test']),
-    status: z.enum(['To Do', 'In Progress', 'Done']),
-    priority: z.enum(['Low', 'Medium', 'High']),
+    category: z.enum(['Bug', 'Feature', 'Documentation', 'Refactor', 'Test']).optional(),
+    status: z.enum(['To Do', 'In Progress', 'Done']).optional(),
+    priority: z.enum(['Low', 'Medium', 'High']).optional(),
   }),
 });
 
