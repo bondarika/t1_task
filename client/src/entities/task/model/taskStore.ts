@@ -4,28 +4,12 @@ import { apiGetTasks, apiCreateTask, apiUpdateTask, apiDeleteTask } from '../api
 import { handleError } from '@/shared/lib/handleError';
 
 /**
- * MobX-стор для управления задачами через REST API
- * @description Централизованное хранилище состояния задач с автоматической синхронизацией
- * с сервером. Использует оптимистичные обновления для улучшения UX.
- *
- * @example
- * ```ts
- * // Получение всех задач
- * const tasks = taskStore.tasks;
- *
- * // Создание новой задачи
- * await taskStore.createTask({
- *   title: 'Новая задача',
- *   category: 'Feature',
- *   status: 'To Do',
- *   priority: 'High'
- * });
- * ```
+ * Хранилище задач с MobX и REST API
  */
 class TaskStore {
-  /** Массив всех задач в системе */
+  /** Массив всех задач */
   tasks: Task[] = [];
-  /** Флаг загрузки для отображения индикаторов */
+  /** Флаг загрузки */
   loading = false;
 
   constructor() {
@@ -36,28 +20,13 @@ class TaskStore {
   }
 
   /**
-   * Computed свойство для получения задачи по ID
-   * @description Возвращает задачу из локального состояния по её уникальному идентификатору
-   * @param id - Уникальный идентификатор задачи
-   * @returns Объект задачи или undefined, если задача не найдена
-   *
-   * @example
-   * ```ts
-   * const task = taskStore.taskById(123);
-   * if (task) {
-   *   console.log(task.title);
-   * }
-   * ```
+   * Получить задачу по ID
    */
   get taskById() {
     return (id: number): Task | undefined => this.tasks.find((t) => t.id === id);
   }
 
-  /**
-   * Загружает все задачи с сервера
-   * @description Выполняет GET запрос к API и обновляет локальное состояние
-   * @throws {Error} При ошибке сетевого запроса или валидации данных
-   */
+  // Загрузить все задачи
   loadTasks = async () => {
     this.loading = true;
     try {
@@ -71,23 +40,7 @@ class TaskStore {
     }
   };
 
-  /**
-   * Создает новую задачу на сервере
-   * @description Отправляет POST запрос для создания задачи и добавляет её в локальное состояние
-   * @param task - Данные для создания новой задачи
-   * @throws {Error} При ошибке валидации или сетевого запроса
-   *
-   * @example
-   * ```ts
-   * await taskStore.createTask({
-   *   title: 'Исправить баг',
-   *   description: 'Описание бага',
-   *   category: 'Bug',
-   *   status: 'To Do',
-   *   priority: 'High'
-   * });
-   * ```
-   */
+  // Создать задачу
   createTask = async (task: CreateTaskData) => {
     this.loading = true;
     try {

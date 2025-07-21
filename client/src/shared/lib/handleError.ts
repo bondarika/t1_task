@@ -1,24 +1,5 @@
 /**
- * Централизованная обработка ошибок в приложении
- * @description Универсальная функция для обработки ошибок с возможностью
- * управления состоянием загрузки и отображения уведомлений
- * @param setLoading - Функция для управления состоянием загрузки
- * @param error - Объект ошибки для обработки
- * @param operationName - Название операции для уведомления пользователя
- * @param showNotification - Флаг для отображения уведомления (по умолчанию true)
- *
- * @example
- * ```ts
- * try {
- *   await someApiCall();
- * } catch (error) {
- *   handleError(
- *     (loading) => setLoading(loading),
- *     error,
- *     'загрузки данных'
- *   );
- * }
- * ```
+ * Универсальная обработка ошибок
  */
 export const handleError = (
   setLoading: (loading: boolean) => void,

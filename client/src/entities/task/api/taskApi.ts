@@ -30,11 +30,6 @@ class TaskApiError extends Error {
  * @param response - Объект Response от fetch
  * @returns Парсированный JSON ответ
  * @throws {TaskApiError} При HTTP ошибках (4xx, 5xx)
- *
- * @example
- * ```ts
- * const data = await handleResponse(response);
- * ```
  */
 const handleResponse = async (response: Response) => {
   if (!response.ok) {
@@ -49,12 +44,6 @@ const handleResponse = async (response: Response) => {
  * @description Выполняет GET запрос к /tasks и преобразует даты в объекты Date
  * @returns Promise с массивом задач
  * @throws {TaskApiError} При ошибках сети или сервера
- *
- * @example
- * ```ts
- * const tasks = await apiGetTasks();
- * console.log(tasks.length); // Количество задач
- * ```
  */
 export const apiGetTasks = async (): Promise<Task[]> => {
   try {
@@ -76,12 +65,6 @@ export const apiGetTasks = async (): Promise<Task[]> => {
  * @param id - Уникальный идентификатор задачи
  * @returns Promise с объектом задачи
  * @throws {TaskApiError} При ошибках сети, сервера или если задача не найдена
- *
- * @example
- * ```ts
- * const task = await apiGetTask(123);
- * console.log(task.title); // Заголовок задачи
- * ```
  */
 export const apiGetTask = async (id: number): Promise<Task> => {
   try {
@@ -103,17 +86,6 @@ export const apiGetTask = async (id: number): Promise<Task> => {
  * @param task - Данные для создания задачи (без id)
  * @returns Promise с созданной задачей (включая id и createdAt)
  * @throws {TaskApiError} При ошибках валидации, сети или сервера
- *
- * @example
- * ```ts
- * const newTask = await apiCreateTask({
- *   title: 'Новая задача',
- *   category: 'Feature',
- *   status: 'To Do',
- *   priority: 'High'
- * });
- * console.log(newTask.id); // ID созданной задачи
- * ```
  */
 export const apiCreateTask = async (task: CreateTaskData): Promise<Task> => {
   try {
@@ -142,15 +114,6 @@ export const apiCreateTask = async (task: CreateTaskData): Promise<Task> => {
  * @param updates - Данные для обновления (частичное обновление)
  * @returns Promise с обновленной задачей
  * @throws {TaskApiError} При ошибках валидации, сети, сервера или если задача не найдена
- *
- * @example
- * ```ts
- * const updatedTask = await apiUpdateTask(123, {
- *   status: 'In Progress',
- *   priority: 'Medium'
- * });
- * console.log(updatedTask.status); // 'In Progress'
- * ```
  */
 export const apiUpdateTask = async (id: number, updates: UpdateTaskData): Promise<Task> => {
   try {
@@ -178,14 +141,6 @@ export const apiUpdateTask = async (id: number, updates: UpdateTaskData): Promis
  * @param id - ID задачи для удаления
  * @returns Promise с boolean результатом операции
  * @throws {TaskApiError} При ошибках сети, сервера или если задача не найдена
- *
- * @example
- * ```ts
- * const success = await apiDeleteTask(123);
- * if (success) {
- *   console.log('Задача успешно удалена');
- * }
- * ```
  */
 export const apiDeleteTask = async (id: number): Promise<boolean> => {
   try {

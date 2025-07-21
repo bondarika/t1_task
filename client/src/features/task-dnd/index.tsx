@@ -6,34 +6,12 @@ import { observer } from 'mobx-react-lite';
 import type { TaskDndBoardProps } from './types.ts';
 
 /**
- * Компонент доски с drag-and-drop функциональностью для задач
- * @description Позволяет перетаскивать задачи между колонками статусов
- * и автоматически обновляет статус задачи на сервере при перетаскивании
- * @param props - Пропсы компонента
- * @param props.onEdit - Callback для редактирования задачи
- * @param props.onDelete - Callback для удаления задачи
- * @returns JSX элемент доски с drag-and-drop
- *
- * @example
- * ```tsx
- * <TaskDndBoard
- *   onEdit={handleEdit}
- *   onDelete={handleDelete}
- * />
- * ```
+ * Доска задач с drag-and-drop
  */
 export const TaskDndBoard = observer(({ onEdit, onDelete }: TaskDndBoardProps) => {
   const { tasks, loading, updateTask } = taskStore;
 
-  /**
-   * Обработчик завершения перетаскивания
-   * @description Анализирует результат перетаскивания и обновляет статус задачи,
-   * если она была перемещена в другую колонку статуса
-   * @param result - Результат операции перетаскивания от @hello-pangea/dnd
-   *
-   * @note Функция игнорирует перетаскивания в ту же позицию или без назначения
-   * @note Обновляет только статус, если задача перемещена в другую колонку
-   */
+  // Обработчик завершения перетаскивания
   const onDragEnd = (result: DropResult) => {
     const { destination, source, draggableId } = result;
 
