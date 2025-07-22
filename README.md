@@ -91,7 +91,7 @@ api/
 - Swagger UI: `http://localhost:8080/` 
 - JSON спецификация: `http://localhost:8080/swagger.json`
 
-## Запуск проекта локально
+## Запуск проекта локально (из ветки task_3)
 
 ### Frontend
 
@@ -106,5 +106,5 @@ npm run dev
 ```bash
 cd api
 npm install
-npm run start:dev
+npm run start
 ```
