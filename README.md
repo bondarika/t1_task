@@ -91,7 +91,7 @@ api/
 - Swagger UI: `http://localhost:8080/` 
 - JSON спецификация: `http://localhost:8080/swagger.json`
 
-## Запуск проекта локально (из ветки task_3)
+## Запуск проекта локально
 
 ### Frontend
 
@@ -106,5 +106,9 @@ npm run dev
 ```bash
 cd api
 npm install
-npm run start
+npm run start:dev
 ```
+
+## Ссылка на деплой
+
+https://t1-task-gules.vercel.app
