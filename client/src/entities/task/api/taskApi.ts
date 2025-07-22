@@ -1,7 +1,5 @@
 ﻿import { type Task, type CreateTaskData, type UpdateTaskData } from '../model/types.ts';
-
-/** Базовый URL для API запросов */
-const API_BASE_URL = 'https://t1-task.onrender.com'; // URL нового бэкенда
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5173';
 
 /**
  * Кастомный класс ошибки для API запросов
