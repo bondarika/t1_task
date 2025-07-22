@@ -1,4 +1,5 @@
 # Task Tracker
+https://t1-task-gules.vercel.app
 
 ## Описание
 
@@ -108,7 +109,3 @@ cd api
 npm install
 npm run start:dev
 ```
-
-## Ссылка на деплой
-
-https://t1-task-gules.vercel.app
